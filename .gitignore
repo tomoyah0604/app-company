@@ -1,0 +1,29 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# 環境変数・秘密情報
+.env
+.env.*
+*.key
+*.pem
+
+# 依存関係・ビルド成果物（各案件アプリ用）
+node_modules/
+dist/
+build/
+.next/
+.vercel/
+coverage/
+
+# ログ・一時
+*.log
+.cache/
+tmp/
+
+# エディタ
+.idea/
+*.swp
+
+# ナレッジ/案件の空ディレクトリ保持用は残す
+!.gitkeep

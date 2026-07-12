@@ -1,0 +1,276 @@
+<title>個人アプリ開発カンパニー — AIエージェント組織図</title>
+<style>
+  :root {
+    --bg: #EBEEF3;
+    --panel: #FFFFFF;
+    --panel-2: #F4F6FA;
+    --ink: #1A1E29;
+    --muted: #5C6575;
+    --faint: #8A93A4;
+    --line: #D7DCE5;
+    --command: #B4740F;
+    --command-soft: #F6E8CE;
+    --flow: #147C71;
+    --flow-soft: #DCEFEC;
+    --shadow: 0 1px 2px rgba(20,25,40,.06), 0 8px 24px rgba(20,25,40,.06);
+    --radius: 14px;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0D1016;
+      --panel: #161A23;
+      --panel-2: #1D222E;
+      --ink: #D8DDE7;
+      --muted: #8A93A6;
+      --faint: #626B7C;
+      --line: #29303F;
+      --command: #E8A13A;
+      --command-soft: #382a14;
+      --flow: #45C2B2;
+      --flow-soft: #14312d;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #EBEEF3; --panel: #FFFFFF; --panel-2: #F4F6FA; --ink: #1A1E29;
+    --muted: #5C6575; --faint: #8A93A4; --line: #D7DCE5;
+    --command: #B4740F; --command-soft: #F6E8CE; --flow: #147C71; --flow-soft: #DCEFEC;
+    --shadow: 0 1px 2px rgba(20,25,40,.06), 0 8px 24px rgba(20,25,40,.06);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0D1016; --panel: #161A23; --panel-2: #1D222E; --ink: #D8DDE7;
+    --muted: #8A93A6; --faint: #626B7C; --line: #29303F;
+    --command: #E8A13A; --command-soft: #382a14; --flow: #45C2B2; --flow-soft: #14312d;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--sans); line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .stage { max-width: 1080px; margin: 0 auto; padding: clamp(28px, 5vw, 64px) clamp(18px, 4vw, 40px) 72px; }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--flow); margin: 0 0 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--flow); display: inline-block; }
+  h1 { font-size: clamp(26px, 4.4vw, 40px); line-height: 1.15; letter-spacing: -.02em; margin: 0 0 12px; text-wrap: balance; font-weight: 780; }
+  .lede { font-size: clamp(15px, 1.6vw, 17px); color: var(--muted); max-width: 60ch; margin: 0; }
+  .lede b { color: var(--ink); font-weight: 650; }
+
+  .divider { height: 1px; background: var(--line); margin: 40px 0; border: 0; }
+
+  .section-label {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--faint); margin: 0 0 18px; display: flex; align-items: baseline; gap: 12px;
+  }
+  .section-label .n { color: var(--command); font-weight: 600; }
+
+  /* Command tier */
+  .command {
+    background: var(--panel); border: 1px solid var(--line);
+    border-top: 3px solid var(--command); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 22px 24px;
+    display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: center;
+  }
+  .badge-round {
+    width: 60px; height: 60px; border-radius: 50%; flex: none;
+    display: grid; place-items: center; font-family: var(--mono); font-weight: 700;
+    background: var(--command-soft); color: var(--command);
+    border: 1px solid color-mix(in srgb, var(--command) 30%, transparent);
+    font-size: 20px;
+  }
+  .command h2 { margin: 0 0 3px; font-size: 20px; letter-spacing: -.01em; }
+  .command .role { font-family: var(--mono); font-size: 12px; color: var(--command); letter-spacing: .06em; }
+  .command p { margin: 8px 0 0; color: var(--muted); font-size: 14px; max-width: 62ch; }
+  .command .tag { font-family: var(--mono); font-size: 11px; color: var(--faint); }
+
+  .connector { display: flex; justify-content: center; align-items: center; gap: 10px; height: 42px; color: var(--faint); }
+  .connector .line { width: 1px; height: 100%; background: linear-gradient(var(--command), var(--flow)); }
+
+  /* Pipeline */
+  .pipe { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .op {
+    position: relative; background: var(--panel); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 18px 16px 16px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 10px; transition: transform .18s ease, border-color .18s ease;
+  }
+  .op:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--flow) 45%, var(--line)); }
+  .op .top { display: flex; align-items: center; justify-content: space-between; }
+  .op .idx { font-family: var(--mono); font-size: 11px; color: var(--faint); letter-spacing: .1em; }
+  .op .steps { font-family: var(--mono); font-size: 10px; color: var(--flow); background: var(--flow-soft); padding: 3px 7px; border-radius: 999px; letter-spacing: .04em; }
+  .op h3 { margin: 0; font-size: 18px; letter-spacing: -.01em; display: flex; align-items: baseline; gap: 8px; }
+  .op h3 .romaji { font-family: var(--mono); font-size: 11px; color: var(--faint); font-weight: 500; letter-spacing: .04em; }
+  .op .role { font-size: 13px; color: var(--muted); font-weight: 600; margin-top: -4px; }
+  .op .desc { font-size: 13px; color: var(--muted); margin: 0; }
+  .op .gate {
+    margin-top: auto; display: flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 12px; padding-top: 10px; border-top: 1px dashed var(--line);
+  }
+  .op .gate .g { color: var(--command); font-weight: 700; }
+  .op .gate .crit { color: var(--ink); }
+  .op.no-gate .gate .g { color: var(--faint); }
+
+  /* Knowledge foundation */
+  .foundation {
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 20px 22px;
+  }
+  .foundation .head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .foundation h3 { margin: 0; font-size: 16px; }
+  .foundation .sub { font-size: 13px; color: var(--muted); }
+  .buckets { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .bucket {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px;
+    font-size: 12.5px;
+  }
+  .bucket .name { font-family: var(--mono); font-size: 11px; color: var(--flow); letter-spacing: .05em; margin-bottom: 4px; }
+  .bucket .d { color: var(--muted); }
+
+  /* Handoff / legend */
+  .grid2 { display: grid; grid-template-columns: 1.1fr 1fr; gap: 16px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); }
+  .card h3 { margin: 0 0 12px; font-size: 15px; }
+  .flowline { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .flowline .node { color: var(--ink); background: var(--panel-2); border: 1px solid var(--line); padding: 3px 8px; border-radius: 6px; }
+  .flowline .arr { color: var(--flow); }
+  .legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 13px; color: var(--muted); }
+  .legend li { display: flex; gap: 10px; }
+  .legend .k { font-family: var(--mono); color: var(--command); flex: none; min-width: 34px; }
+
+  footer { margin-top: 28px; font-size: 12px; color: var(--faint); font-family: var(--mono); letter-spacing: .04em; }
+
+  @media (max-width: 760px) {
+    .command { grid-template-columns: auto 1fr; }
+    .pipe { grid-template-columns: 1fr 1fr; }
+    .buckets { grid-template-columns: repeat(2, 1fr); }
+    .grid2 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 460px) {
+    .pipe { grid-template-columns: 1fr; }
+    .buckets { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) { .op { transition: none; } }
+</style>
+
+<div class="stage">
+  <p class="eyebrow">AI Agent Organization</p>
+  <h1>個人アプリ開発カンパニー</h1>
+  <p class="lede">1人の創業者を、7体のAIエージェントが支えるバーチャル・カンパニー。<b>「作ってから需要を探す」のではなく、需要を検証してから作る。</b>すべての前進は数値ゲートで判定される。</p>
+
+  <hr class="divider" />
+
+  <p class="section-label"><span class="n">層 1</span> 司令塔 — 意思決定とゲート判定</p>
+  <div class="command">
+    <div class="badge-round">00</div>
+    <div>
+      <h2>ソラ <span class="role">Sora / 司令塔（CEO・PM）</span></h2>
+      <p>案件を G0→G6 のステージゲートに沿って前進させ、実測値でGO/NO-GOを判定。次に動かすエージェントを <span class="tag">Task</span> で起票する統括役。基準未達なら差し戻し or ピボットを指示。</p>
+    </div>
+  </div>
+
+  <div class="connector"><span class="line"></span></div>
+
+  <p class="section-label"><span class="n">層 2</span> 実働エージェント — 11ステップを分担</p>
+  <div class="pipe">
+    <div class="op">
+      <div class="top"><span class="idx">01 · DISCOVERY</span><span class="steps">STEP ①</span></div>
+      <h3>ハヤテ <span class="romaji">Hayate</span></h3>
+      <div class="role">探索者 — 事業開発</div>
+      <p class="desc">アイデア発掘と競合調査。「1秒で理解できる」共感 × UI/UX差別化を言語化する。</p>
+      <div class="gate"><span class="g">G0</span><span class="crit">1秒理解 × 差別化</span></div>
+    </div>
+
+    <div class="op no-gate">
+      <div class="top"><span class="idx">02 · PRODUCT</span><span class="steps">STEP ②</span></div>
+      <h3>リン <span class="romaji">Rin</span></h3>
+      <div class="role">設計士 — プロダクト企画</div>
+      <p class="desc">要件をMVP粒度まで削る。課金導線を最初から設計に含め、必須/後回し/やらないを仕分け。</p>
+      <div class="gate"><span class="g">PRD</span><span class="crit">MVPスコープ確定</span></div>
+    </div>
+
+    <div class="op">
+      <div class="top"><span class="idx">03 · MARKETING</span><span class="steps">STEP ②③④⑥</span></div>
+      <h3>カエデ <span class="romaji">Kaede</span></h3>
+      <div class="role">仕掛け人 — マーケ/グロース</div>
+      <p class="desc">LP・広告・SNS運用。少額広告で需要を検証しCPAを算出。開発前に「売れるか」を見極める。</p>
+      <div class="gate"><span class="g">G1</span><span class="crit">CPA ≤ ¥300</span></div>
+    </div>
+
+    <div class="op">
+      <div class="top"><span class="idx">04 · ENGINEERING</span><span class="steps">STEP ⑤⑦⑨</span></div>
+      <h3>タクミ <span class="romaji">Takumi</span></h3>
+      <div class="role">職人 — 開発</div>
+      <p class="desc">最小価値のMVPを最短で実装・公開。課金機能と計測(PostHog等)は初回から必ず入れる。</p>
+      <div class="gate"><span class="g">G3</span><span class="crit">最小価値+課金 公開</span></div>
+    </div>
+
+    <div class="op">
+      <div class="top"><span class="idx">05 · ANALYTICS</span><span class="steps">STEP ④⑧⑨⑩⑪</span></div>
+      <h3>ミオ <span class="romaji">Mio</span></h3>
+      <div class="role">観測者 — データ分析</div>
+      <p class="desc">課金率・ファネル・継続率を計測。PMFとユニットエコノミクスの合否材料を正確に出す。</p>
+      <div class="gate"><span class="g">G4·G5</span><span class="crit">CVR≥1% / D30≥15%</span></div>
+    </div>
+
+    <div class="op">
+      <div class="top"><span class="idx">06 · GROWTH-OPS</span><span class="steps">STEP ⑪+Exit</span></div>
+      <h3>ゲン <span class="romaji">Gen</span></h3>
+      <div class="role">拡張者 — 運用/スケール</div>
+      <p class="desc">採算成立後にスケール投資と運用自動化。安定したら事業売却(Exit)も選択肢に。</p>
+      <div class="gate"><span class="g">G6</span><span class="crit">LTV ≥ CPA×3</span></div>
+    </div>
+  </div>
+
+  <div class="connector"><span class="line"></span></div>
+
+  <p class="section-label"><span class="n">層 3</span> 共有の脳 — 全員が読み書きする資産</p>
+  <div class="foundation">
+    <div class="head">
+      <h3>knowledge/</h3>
+      <span class="sub">着手前に読み、完了後に学びを溜める。案件をこなすほど組織が賢くなる。</span>
+    </div>
+    <div class="buckets">
+      <div class="bucket"><div class="name">insights</div><div class="d">学び・気づき</div></div>
+      <div class="bucket"><div class="name">playbooks</div><div class="d">勝ちパターン</div></div>
+      <div class="bucket"><div class="name">metrics</div><div class="d">CPA/CVR/LTV実績</div></div>
+      <div class="bucket"><div class="name">decisions</div><div class="d">意思決定ログ</div></div>
+      <div class="bucket"><div class="name">templates</div><div class="d">LP/広告/PRD雛形</div></div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="grid2">
+    <div class="card">
+      <h3>案件の流れ（ステージゲート）</h3>
+      <div class="flowline">
+        <span class="node">G0 アイデア</span><span class="arr">→</span>
+        <span class="node">G1 需要検証</span><span class="arr">→</span>
+        <span class="node">G2 開発GO</span><span class="arr">→</span>
+        <span class="node">G3 ローンチ</span><span class="arr">→</span>
+        <span class="node">G4 課金率</span><span class="arr">→</span>
+        <span class="node">G5 PMF</span><span class="arr">→</span>
+        <span class="node">G6 スケール/Exit</span>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin:14px 0 0;">各エージェントは <b style="color:var(--ink)">HANDOFF書式</b> で成果物を次工程へ渡し、判定が要るものはソラへ返す。</p>
+    </div>
+    <div class="card">
+      <h3>通過基準（数値ゲート）</h3>
+      <ul class="legend">
+        <li><span class="k">G1</span>CPA ¥100〜300以内でGO、外れたらピボット</li>
+        <li><span class="k">G4</span>課金率(CVR) ≥ 1%（2〜5%で優秀）</li>
+        <li><span class="k">G5</span>30日継続率 ≥ 15% or 「なくなると残念」≥ 40%</li>
+        <li><span class="k">G6</span>LTV ≥ CPA×3（ユニットエコノミクス成立）</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>7 agents · 1 founder · projects/ を1案件=1フォルダで並行運用</footer>
+</div>
