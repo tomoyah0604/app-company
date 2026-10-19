@@ -39,3 +39,15 @@ claude mcp get plugin:chatcut:chatcut     # Connected になっていればOK
 - **ChatCut はクレジット消費・クラウドレンダリングがある**。書き出し・生成・プロジェクト削除の前は必ず創業者に確認する。
 - Playwright で取得したスクショ・検証結果は `projects/<案件名>/stages/` 配下に保存する（会社憲法ルール2）。
 - skill-creator で作ったスキルは `.claude/skills/<スキル名>/` に置き、`knowledge/` 登録案と同様に承認後に確定する。
+
+## エージェントへの権限付与
+
+`.claude/agents/*.md` の `tools:` で、プラグインのツールを担当エージェントに渡している。
+
+| エージェント | 追加ツール |
+|---|---|
+| タクミ（engineering） | `mcp__plugin_playwright_playwright__*` |
+| カエデ（marketing） | `mcp__plugin_playwright_playwright__*`, `mcp__plugin_chatcut_chatcut__*` |
+| ソラ（orchestrator） | `Skill`（skill-creator 呼び出し用） |
+
+他のエージェントにも使わせたい場合は、同じ書式で `tools:` に追加する。
