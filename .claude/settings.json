@@ -1,0 +1,15 @@
+{
+  "extraKnownMarketplaces": {
+    "claude-plugins-official": {
+      "source": { "source": "github", "repo": "anthropics/claude-plugins-official" }
+    },
+    "chatcut-inc": {
+      "source": { "source": "git", "url": "https://github.com/ChatCut-Inc/agent-plugin.git" }
+    }
+  },
+  "enabledPlugins": {
+    "playwright@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "chatcut@chatcut-inc": true
+  }
+}

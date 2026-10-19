@@ -89,6 +89,12 @@ status: DONE | BLOCKED | NEEDS_DECISION
 
 ---
 
+## 外部ツール連携
+Playwright（ブラウザ操作/E2E）・skill-creator（スキル作成）・ChatCut（動画編集）をプラグインとして `.claude/settings.json` で有効化済み。
+セットアップと運用ルールは `docs/integrations.md` を参照。ChatCut の書き出し・生成など**クレジットを消費する操作は事前に創業者へ確認**する。
+
+---
+
 ## 用語メモ（初出注釈）
 - **LP**：ランディングページ（1枚の需要検証用ページ）
 - **CPA**：顧客獲得単価（1人獲得にかかる広告費）
