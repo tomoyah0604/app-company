@@ -76,7 +76,7 @@ const rawPeople: Omit<Person, 'slot'>[] = [
       accent: '#ffcf5a',
     },
     day: 23,
-    streaks: s(23, 22, 8, 15),
+    streaks: s(22, 22, 8, 15),
     activity: null,
     since: now,
   },
