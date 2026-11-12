@@ -473,9 +473,9 @@ function Fountain() {
   )
 }
 
-/** 75-week challenge board: a wooden notice board with progress pins. */
+/** 75-day challenge board: a wooden notice board with one pin per day. */
 function ChallengeBoard({ p, ry }: { p: V3; ry: number }) {
-  const week = useStore((s) => s.people.me.week)
+  const day = useStore((s) => s.people.me.day)
   const pins = useMemo(() => Array.from({ length: 75 }, (_, i) => i), [])
   return (
     <group position={p} rotation-y={ry}>
@@ -488,12 +488,12 @@ function ChallengeBoard({ p, ry }: { p: V3; ry: number }) {
       {pins.map((i) => {
         const col = i % 15
         const row = Math.floor(i / 15)
-        const done = i < week
+        const done = i < day
         return (
           <mesh
             key={i}
             geometry={sphere(0.028, 8, 6)}
-            material={mat(done ? (i === week - 1 ? palette.goldDeep : '#4cc2b0') : '#e3d8c4')}
+            material={mat(done ? (i === day - 1 ? palette.goldDeep : '#4cc2b0') : '#e3d8c4')}
             position={[-0.63 + col * 0.09, 1.42 - row * 0.12, 0.1]}
           />
         )

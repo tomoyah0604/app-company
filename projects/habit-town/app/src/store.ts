@@ -72,7 +72,7 @@ const rng = mulberry32(42)
 
 const timeCycle: ('auto' | TimeOfDay)[] = ['auto', 'morning', 'noon', 'evening', 'night']
 
-/** Seed flowers so the town already looks 12 weeks lived-in. */
+/** Seed flowers so the town already looks 23 days lived-in. */
 function seedFlowers(): Flower[] {
   const out: Flower[] = []
   const r = mulberry32(7)

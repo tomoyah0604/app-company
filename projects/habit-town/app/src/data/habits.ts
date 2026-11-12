@@ -21,7 +21,7 @@ export const habits: HabitDef[] = [
 
 export const habitById = Object.fromEntries(habits.map((h) => [h.id, h])) as Record<HabitId, HabitDef>
 
-export const CHALLENGE_WEEKS = 75
+export const CHALLENGE_DAYS = 75
 
 export type HairStyle = 'short' | 'bob' | 'bun' | 'spiky' | 'long'
 export type Accessory = 'none' | 'headband' | 'cap' | 'glasses' | 'flower'
@@ -42,7 +42,8 @@ export interface Person {
   name: string
   isMe: boolean
   look: Look
-  week: number
+  /** day of the 75-day challenge (1..75) */
+  day: number
   streaks: Record<HabitId, number>
   /** current activity, null = hanging out on the plaza */
   activity: HabitId | null
@@ -74,8 +75,8 @@ const rawPeople: Omit<Person, 'slot'>[] = [
       accessory: 'none',
       accent: '#ffcf5a',
     },
-    week: 12,
-    streaks: s(23, 41, 8, 15),
+    day: 23,
+    streaks: s(23, 22, 8, 15),
     activity: null,
     since: now,
   },
@@ -84,8 +85,8 @@ const rawPeople: Omit<Person, 'slot'>[] = [
     name: 'ハル',
     isMe: false,
     look: { skin: skins[0], hair: '#e7a15a', shirt: '#ff8a8a', pants: '#5c4a7a', shoes: '#fff4dc', hairStyle: 'bob', accessory: 'flower', accent: '#ff8a8a' },
-    week: 31,
-    streaks: s(12, 88, 30, 64),
+    day: 52,
+    streaks: s(12, 52, 30, 45),
     activity: 'read',
     since: now - 18 * min,
   },
@@ -94,8 +95,8 @@ const rawPeople: Omit<Person, 'slot'>[] = [
     name: 'ソウタ',
     isMe: false,
     look: { skin: skins[3], hair: '#2c2420', shirt: '#4cc2b0', pants: '#3b3f4f', shoes: '#ff7a59', hairStyle: 'spiky', accessory: 'headband', accent: '#4cc2b0' },
-    week: 48,
-    streaks: s(201, 14, 40, 120),
+    day: 71,
+    streaks: s(71, 14, 40, 66),
     activity: 'gym',
     since: now - 34 * min,
   },
@@ -104,8 +105,8 @@ const rawPeople: Omit<Person, 'slot'>[] = [
     name: 'メイ',
     isMe: false,
     look: { skin: skins[1], hair: '#7a4b3a', shirt: '#c48bdc', pants: '#f3e7d3', shoes: '#8a5bb0', hairStyle: 'bun', accessory: 'glasses', accent: '#c48bdc' },
-    week: 7,
-    streaks: s(5, 22, 46, 3),
+    day: 7,
+    streaks: s(5, 7, 7, 3),
     activity: 'study',
     since: now - 52 * min,
   },
@@ -114,8 +115,8 @@ const rawPeople: Omit<Person, 'slot'>[] = [
     name: 'レン',
     isMe: false,
     look: { skin: skins[2], hair: '#3a2c24', shirt: '#7ab8f5', pants: '#ffffff', shoes: '#4c90d6', hairStyle: 'short', accessory: 'cap', accent: '#7ab8f5' },
-    week: 22,
-    streaks: s(60, 10, 12, 140),
+    day: 38,
+    streaks: s(30, 10, 12, 38),
     activity: 'run',
     since: now - 9 * min,
   },
@@ -124,8 +125,8 @@ const rawPeople: Omit<Person, 'slot'>[] = [
     name: 'ユイ',
     isMe: false,
     look: { skin: skins[0], hair: '#2f2a3a', shirt: '#ffd166', pants: '#6c8f5a', shoes: '#ffffff', hairStyle: 'long', accessory: 'none', accent: '#ffd166' },
-    week: 64,
-    streaks: s(150, 300, 90, 40),
+    day: 64,
+    streaks: s(64, 60, 40, 22),
     activity: null,
     since: now - 4 * min,
   },
@@ -134,8 +135,8 @@ const rawPeople: Omit<Person, 'slot'>[] = [
     name: 'カイ',
     isMe: false,
     look: { skin: skins[4], hair: '#1f1b1a', shirt: '#9bd47a', pants: '#4a4e69', shoes: '#ffcf5a', hairStyle: 'short', accessory: 'headband', accent: '#9bd47a' },
-    week: 3,
-    streaks: s(9, 2, 1, 11),
+    day: 3,
+    streaks: s(3, 2, 1, 3),
     activity: 'gym',
     since: now - 12 * min,
   },
@@ -144,8 +145,8 @@ const rawPeople: Omit<Person, 'slot'>[] = [
     name: 'ミオ',
     isMe: false,
     look: { skin: skins[1], hair: '#c46a4a', shirt: '#ffffff', pants: '#e07a8f', shoes: '#5a4a6a', hairStyle: 'bob', accessory: 'none', accent: '#e07a8f' },
-    week: 40,
-    streaks: s(33, 120, 77, 25),
+    day: 40,
+    streaks: s(33, 40, 37, 25),
     activity: 'read',
     since: now - 41 * min,
   },
@@ -154,8 +155,8 @@ const rawPeople: Omit<Person, 'slot'>[] = [
     name: 'タク',
     isMe: false,
     look: { skin: skins[2], hair: '#4a3a2e', shirt: '#ff9f6b', pants: '#2f4858', shoes: '#ffffff', hairStyle: 'spiky', accessory: 'glasses', accent: '#ff9f6b' },
-    week: 15,
-    streaks: s(40, 18, 70, 6),
+    day: 15,
+    streaks: s(15, 12, 15, 6),
     activity: null,
     since: now - 2 * min,
   },
@@ -164,8 +165,8 @@ const rawPeople: Omit<Person, 'slot'>[] = [
     name: 'ナナ',
     isMe: false,
     look: { skin: skins[0], hair: '#e8c37a', shirt: '#8fd3ff', pants: '#f4b6c2', shoes: '#ffffff', hairStyle: 'long', accessory: 'flower', accent: '#8fd3ff' },
-    week: 55,
-    streaks: s(80, 60, 20, 210),
+    day: 55,
+    streaks: s(50, 55, 20, 55),
     activity: 'run',
     since: now - 27 * min,
   },

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { CHALLENGE_WEEKS, habitById, habits } from '../data/habits'
+import { CHALLENGE_DAYS, habitById, habits } from '../data/habits'
 import type { HabitId, Person } from '../data/habits'
 import { useStore } from '../store'
 import { timeOfDayFromClock } from '../tokens'
@@ -66,10 +66,8 @@ function TopBar() {
   const setShopOpen = useStore((s) => s.setShopOpen)
   const todayDone = useStore((s) => s.todayDone)
   const friendCount = useStore((s) => s.order.length - 1)
-  const dayInWeek = 3
-  const day = (me.week - 1) * 7 + dayInWeek
   const doneCount = Object.values(todayDone).filter(Boolean).length
-  const pct = ((me.week - 1) / CHALLENGE_WEEKS) * 100 + (dayInWeek / 7 / CHALLENGE_WEEKS) * 100
+  const pct = (me.day / CHALLENGE_DAYS) * 100
 
   const tod = timeMode === 'auto' ? timeOfDayFromClock() : timeMode
   const TimeIcon = timeMode === 'auto' ? IconAuto : tod === 'morning' ? IconSunrise : tod === 'noon' ? IconSun : tod === 'evening' ? IconSunset : IconMoon
@@ -81,22 +79,22 @@ function TopBar() {
         <Avatar p={me} size={42} />
         <div className="challenge-body">
           <div className="challenge-title">
-            <span>75週チャレンジ</span>
+            <span>75日チャレンジ</span>
             <span className="today-pill" aria-label={`今日の達成 ${doneCount}/4`}>
               今日 {doneCount}/4
             </span>
           </div>
-          <div className="progress" role="progressbar" aria-valuemin={0} aria-valuemax={CHALLENGE_WEEKS} aria-valuenow={me.week}>
+          <div className="progress" role="progressbar" aria-valuemin={0} aria-valuemax={CHALLENGE_DAYS} aria-valuenow={me.day}>
             <div className="progress-fill" style={{ width: `${pct}%` }} />
             {[25, 50].map((m) => (
-              <span key={m} className="progress-tick" style={{ left: `${(m / CHALLENGE_WEEKS) * 100}%` }} />
+              <span key={m} className="progress-tick" style={{ left: `${(m / CHALLENGE_DAYS) * 100}%` }} />
             ))}
           </div>
           <div className="challenge-meta">
-            <b>第{me.week}週</b>
-            <span>/ {CHALLENGE_WEEKS}週</span>
+            <b>{me.day}日目</b>
+            <span>/ {CHALLENGE_DAYS}日</span>
             <span className="dot" />
-            <span>{day}日目</span>
+            <span>のこり{CHALLENGE_DAYS - me.day}日</span>
           </div>
         </div>
       </div>
@@ -230,7 +228,7 @@ function PersonSheet() {
         <div>
           <div className="sheet-name">
             {shown.name}
-            <span className="sheet-week">第{shown.week}週</span>
+            <span className="sheet-week">{shown.day}日目</span>
           </div>
           <div className="sheet-status" style={{ ['--c' as string]: h?.color ?? '#b7a58f' }}>
             <span className="status-dot" />
@@ -336,7 +334,7 @@ function Shop() {
           <IconCrown size={30} />
         </div>
         <h2>Habit Town Plus</h2>
-        <p className="muted">町をもっと自分らしく。75週を最後まで楽しく。</p>
+        <p className="muted">町をもっと自分らしく。75日を最後まで楽しく。</p>
         <ul className="perks">
           <li>
             <b>フレンド無制限</b>
